@@ -1,5 +1,6 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
+const { dbConnection } = require('../database/config');
 
 
 class Server {
@@ -17,11 +18,15 @@ class Server {
             canales: '/api/canales',
         }
 
+        //conectar DB
+        this.conectarDB();
         //middlewares
         this.middlewares();
-
         //Rutas de la aplicacion
         this.routes();
+    }
+    async conectarDB() {
+        await dbConnection();
     }
 
     middlewares() {

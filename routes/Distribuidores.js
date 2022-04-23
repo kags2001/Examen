@@ -1,8 +1,11 @@
 const { Router } = require('express');
+const { check } = require('express-validator');
 const { distribuidoresGet, distribuidoresPost, distribuidoresPut, distribuidoresDelete } = require('../controllers/distribuidores');
 const router = Router();
 
-router.get('/', distribuidoresGet);
+router.get('/', [
+    check('correoA', 'El correo no es valido').isEmail(),
+], distribuidoresGet);
 
 router.post('/', distribuidoresPost);
 
