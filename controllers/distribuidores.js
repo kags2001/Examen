@@ -2,44 +2,41 @@ const { response } = require("express");
 const Distribuidor = require('../models/distribuidor');
 
 
-const distribuidoresGet = (req, res = response) => {
+const distribuidoresGet = async(req, res = response) => {
+    const distribuidores = await Distribuidor.find();
+
     res.json({
-        msg: 'todo ok1 - controlador'
+        distribuidores
     });
 }
 
 const distribuidoresPost = async(req, res) => {
+
     const { nombre, codigo, correoN, correoA } = req.body;
     const distribuidor = new Distribuidor({ nombre, codigo, correoN, correoA });
 
-    //Verificar si los correos existen
-    const existecorreoA = await Distribuidor.findOne({ correoA });
-    if (!existecorreoA) {
-        await distribuidor.save();
-    } else {
-        return res.status(400).json({
-            msg: "el correo ya existe"
-        })
-    }
-
-
     //Guardar en Db
     await distribuidor.save();
-
     res.json(distribuidor);
 }
 
-const distribuidoresPut = (req, res) => {
-    const id = req.params.id;
+
+const distribuidoresPut = async(req, res = response) => {
+    const { id } = req.params;
+    const todo = req.body;
+
+    const distribuidor = await Distribuidor.findByIdAndUpdate(id, todo)
     res.json({
-        msg: 'todo ok3- controlador',
-        id
+        distribuidor
     });
 }
 
-const distribuidoresDelete = (req, res) => {
+const distribuidoresDelete = async(req, res) => {
+    const { id } = req.params
+    const distribuidor = await Distribuidor.findByIdAndRemove(id)
+
     res.json({
-        msg: 'todo ok4 - controlador'
+        msg: `se elimino el distribuidor con el id ${id}`,
     });
 }
 
