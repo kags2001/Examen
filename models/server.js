@@ -13,6 +13,7 @@ class Server {
 
 
         this.paths = {
+            usuarios: '/api/usuarios',
             distribuidores: '/api/distribuidores',
             productos: '/api/productos',
             canales: '/api/canales',
@@ -40,6 +41,7 @@ class Server {
     }
 
     routes() {
+        this.app.use(this.paths.usuarios, require('../routes/usuarios'))
         this.app.use(this.paths.distribuidores, require('../routes/Distribuidores'))
         this.app.use(this.paths.productos, require('../routes/Productos'))
         this.app.use(this.paths.canales, require('../routes/Canales'))

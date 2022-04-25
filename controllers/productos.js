@@ -1,17 +1,26 @@
 const { response } = require("express");
+const { Producto } = require('../models/index')
 
 
 
-const productosGet = (req, res = response) => {
-    res.json({
-        msg: 'produ1 - con'
-    });
-}
+const productosGet = async(req, res = response) => {}
 
-const productoPost = (req, res = response) => {
-    res.json({
-        msg: 'produ2- con'
-    });
+const productoPost = async(req, res = response) => {
+    const { codigo } = req.body;
+
+    const productoDB = await Producto.findOne({ codigo })
+    if (productoDB) {
+        return res.status(400).json({
+            msg: 'el producto ya existe'
+        });
+    }
+    const data = {
+        codigo,
+        distribuidor: req.distribuidor.id
+    }
+    console.log(data)
+
+
 }
 
 const productosPut = (req, res = response) => {

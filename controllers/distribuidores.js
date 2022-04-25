@@ -18,6 +18,7 @@ const distribuidoresPost = async(req, res) => {
     //Guardar en Db
     await distribuidor.save();
     res.json(distribuidor);
+
 }
 
 
