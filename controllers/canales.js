@@ -1,29 +1,41 @@
 const { response } = require("express");
+const { Canal } = require("../models");
 
 
 
-const canalesGet = (req, res = response) => {
-    res.json({
-        msg: 'can1- con'
-    });
+const canalesGet = async(req, res = response) => {
+    const canal = await Canal.find()
+    res.json(canal)
 }
 
-const canalesPost = (req, res = response) => {
-    res.json({
-        msg: 'can2 - con'
-    });
+const canalesPost = async(req, res = response) => {
+    const { nombre, codigo, distribuidor } = req.body;
+    const canal = new Canal();
+    canal.nombre = nombre,
+        canal.codigo = codigo,
+        canal.distribuidor = distribuidor
+
+
+
+    //Guardar en Db
+    await canal.save();
+    res.json(canal);
 }
 
-const canalesPut = (req, res = response) => {
-    res.json({
-        msg: 'can3 - con'
-    });
+const canalesPut = async(req, res = response) => {
+    const { id } = req.params;
+    const todo = req.body;
+
+    const canalnuevo = await Canal.findByIdAndUpdate(id, todo)
+    res.json(canalnuevo)
 }
 
-const canalesDelete = (req, res = response) => {
+const canalesDelete = async(req, res = response) => {
+    const { id } = req.params
+    const borrarC = await Canal.findByIdAndRemove(id)
     res.json({
-        msg: 'can4 - con'
-    });
+        msg: `se borro el canal`,
+    })
 }
 
 

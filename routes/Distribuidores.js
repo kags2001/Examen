@@ -12,6 +12,8 @@ router.post('/', [
     validarJWT,
     check('nombre', 'el nombre es obligatorio').not().isEmpty(),
     check('codigo', 'el codigo es obligatorio').not().isEmpty(),
+    check('correoN', 'el correo es obligatorio').not().isEmpty(),
+    check('correoA', 'el correo es obligatorio').not().isEmpty(),
     check('correoN').custom(existeCorreoN),
     check('correoA').custom(existeCorreo),
     validarCampos

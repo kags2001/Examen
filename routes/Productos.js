@@ -4,7 +4,7 @@ const router = Router();
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { existeDistribuidorporID } = require('../helpers/db-validators');
+const { existeDistribuidorporID, existeProductoPorID } = require('../helpers/db-validators');
 
 
 router.get('/', productosGet);
@@ -12,14 +12,27 @@ router.get('/', productosGet);
 router.post('/', [
     validarJWT,
     check('nombre', 'el nombre es obligatorio').not().isEmpty(),
+    check('Descripcion', 'la Descripcion es obligatoria').not().isEmpty(),
+    check('monto', 'el monto es obligatorio').not().isEmpty(),
+    check('monto', 'el monto debe ser un numero').isNumeric(),
+    check('distribuidor', 'El distribuidor es obligatorio').not().notEmpty(),
     check('distribuidor', 'no es un id de mongo').isMongoId(),
     check('distribuidor').custom(existeDistribuidorporID),
     validarCampos
 ], productoPost);
 
-router.put('/', productosPut);
+router.put('/:id', [
+    validarJWT,
+    check('id').custom(existeProductoPorID),
+    validarCampos
+], productosPut);
 
-router.delete('/', productosDelete);
+router.delete('/:id', [
+    validarJWT,
+    check('id', 'no es un ID valido').isMongoId(),
+    check('id').custom(existeProductoPorID),
+    validarCampos
+], productosDelete);
 
 
 
