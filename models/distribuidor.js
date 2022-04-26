@@ -19,6 +19,10 @@ const DistribuidorSchema = Schema({
         required: [true, 'El correo de alertas es obligatorio'],
         unique: true
     },
+    usuario: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario',
+    }
 
 });
 

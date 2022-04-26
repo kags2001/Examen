@@ -6,19 +6,17 @@ const { Producto } = require('../models/index')
 const productosGet = async(req, res = response) => {}
 
 const productoPost = async(req, res = response) => {
-    const { codigo } = req.body;
 
-    const productoDB = await Producto.findOne({ codigo })
-    if (productoDB) {
-        return res.status(400).json({
-            msg: 'el producto ya existe'
-        });
-    }
+
     const data = {
-        codigo,
-        distribuidor: req.distribuidor.id
+
     }
-    console.log(data)
+
+    const producto = new Producto({ data });
+
+    //Guardar en Db
+    await producto.save();
+    res.json(producto);
 
 
 }
